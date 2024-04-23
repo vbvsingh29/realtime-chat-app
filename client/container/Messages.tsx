@@ -51,15 +51,14 @@ function MessageContainer() {
             );
           })}
         <div ref={messageEndRef} />
-
-        <div className={styles.messageBox}>
-          <textarea
-            rows={1}
-            placeholder="Tell Us What you are thinkinh"
-            ref={newMessageRef}
-          />
-          <button onClick={handleSendMessage}>Send</button>
-        </div>
+      </div>
+      <div className={styles.messageBox}>
+        <textarea
+          rows={1}
+          placeholder="Tell Us What you are thinkinh"
+          ref={newMessageRef}
+        />
+        <button onClick={handleSendMessage}>Send</button>
       </div>
     </div>
   );
