@@ -35,3 +35,7 @@ button.cta {
   background-color: blueviolet;
   white-space: nowrap;
 }
+button.cta:hover {
+  background-color: black;
+  white-space: nowrap;
+}
