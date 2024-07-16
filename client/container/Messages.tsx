@@ -55,7 +55,7 @@ function MessageContainer() {
       <div className={styles.messageBox}>
         <textarea
           rows={1}
-          placeholder="Tell Us What you are thinkinh"
+          placeholder="Tell Us What you are thinking"
           ref={newMessageRef}
         />
         <button onClick={handleSendMessage}>Send</button>
