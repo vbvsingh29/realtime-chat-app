@@ -45,9 +45,18 @@ app.get("/healthcheck", (_, res: Response) => {
   }
 });
 
-httpServer.listen(port, async () => {
-  await connectToDatabase();
-  logger.info(`server is listening with version ${version}`);
-  logger.info(`http://localhost:${port}`);
-  socket({ io });
-});
+async function startServer() {
+  try {
+    await connectToDatabase();
+    httpServer.listen(port, () => {
+      logger.info(`server is listening with version ${version}`);
+      logger.info(`http://localhost:${port}`);
+      socket({ io });
+    });
+  } catch (err) {
+    logger.error("Failed to start server:", err);
+    process.exit(1);
+  }
+}
+
+startServer();
