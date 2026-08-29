@@ -45,6 +45,9 @@ function socket({ io }: { io: Server }) {
     when a user creates new room
     */
     socket.on(EVENTS.CLIENT.CREATE_ROOM, async ({ roomName, creatorId }) => {
+      if (!roomName || String(roomName).trim().length === 0 || String(roomName).length > 30) {
+        return;
+      }
       try {
         const roomId = nanoid();
 
@@ -75,6 +78,9 @@ function socket({ io }: { io: Server }) {
     socket.on(
       EVENTS.CLIENT.SEND_ROOM_MESSAGE,
       async ({ roomId, message, username }) => {
+        if (!message || String(message).trim().length === 0 || String(message).length > 500) {
+          return;
+        }
         try {
           const date = new Date();
           const time = `${date.getHours().toString().padStart(2, "0")}:${date
