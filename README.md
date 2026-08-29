@@ -1,54 +1,65 @@
-# Real-Time Chat App
+# Real-Time Chat App (with MongoDB & Auth)
 
-This is a simple real-time chat application built using Node.js, Express, Socket.IO for the backend, and React with CSS for the frontend. It utilizes WebSocket technology for real-time communication between clients.
+An interactive, real-time chat application styled with a dark, Discord-inspired UI. Users can register accounts, log in, create custom chat rooms, copy and share Room IDs, chat in real-time, and see typing indicators and user presence states. 
 
-## Features
+---
 
-- Real-time messaging: Chat with other users in real-time.
-- Simple and intuitive UI: Clean and user-friendly interface for an enjoyable chatting experience.
+## 🛠️ Key Showcase Features
 
-## Technologies Used
+*   **👤 JWT User Authentication:** Secure register/login flow using `bcrypt` password hashing and `jsonwebtoken` session tokens. Only logged-in users can participate in chat rooms.
+*   **💾 Database Persistence:** All active rooms and messages are stored in MongoDB.
+*   **🧹 Auto-Clean TTL index:** Integrated automatic garbage collection. Messages older than **48 hours** are deleted from MongoDB automatically via a TTL index to ensure free-tier database limits are never exceeded.
+*   **⚡ WebSocket Event-Driven HUD:** Real-time presence indicators (online bubble) and live typing HUD alerts ("X is typing...") powered by Socket.IO.
+*   **🔗 Room Joining:** Generate and copy a unique Room ID with one click, allowing other logged-in users to join instantly by pasting the code in their sidebar.
 
-- **Backend:**
-  - Node.js
-  - Express.js
-  - Socket.IO
-  
-- **Frontend:**
-  - React
-  - CSS
-  
-- **WebSocket Client:**
-  - Socket.IO Client
+---
 
-## Getting Started
+## 🔑 Required Environment Variables (ENV Setup)
 
-### Prerequisites
+Create a `.env` file in the server folder. The client will load properties dynamically or fall back to localhost.
 
-Make sure you have Node.js and npm installed on your machine.
+### Server Environment Variables (`/server/.env`)
+```env
+PORT=4000
+HOST=localhost
+CORS_ORIGIN=http://localhost:1234
+DB_URI=mongodb://localhost:27017/chat-app
+JWT_SECRET=your_secret_jwt_key_here
+```
+*Note: For remote showcase deployment, set `DB_URI` to your MongoDB Atlas connection string and `CORS_ORIGIN` to your deployed client domain.*
 
-### Installation
+---
 
-1. Clone the repository:
-   ```bash 
-     https://github.com/vbvsingh29/realtime-chat-app
+## 🚀 How to Run the Project Locally
+
+Ensure you have **Node.js** and **Yarn** installed. Make sure your local MongoDB service is running (`mongod`).
+
+### Step 1: Run the Backend Server
+1. Navigate to the server folder:
+   ```bash
+   cd server
    ```
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+3. Start the server:
+   ```bash
+   yarn dev
+   ```
+   The server will start listening at `http://localhost:4000`.
 
-2. Install dependencies for both backend and frontend:
-
-```bash
-cd realtime-chat-app
-cd server
-yarn
-
-cd ../client
-yarn
-```
-3.Start the server 
-```bash
-cd server
-yarn dev
-
-cd client
-yarn start
-```
+### Step 2: Run the Frontend Client
+1. Navigate to the client folder:
+   ```bash
+   cd ../client
+   ```
+2. Install dependencies:
+   ```bash
+   yarn install
+   ```
+3. Start the client (uses Parcel):
+   ```bash
+   yarn start
+   ```
+   The client will compile and open at `http://localhost:1234`.
