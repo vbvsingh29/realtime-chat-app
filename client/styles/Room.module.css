@@ -1,42 +1,222 @@
 .wrapper {
-    width: 250px;
-    background-color:darkslategrey;
-    height: 100vh;
-    padding: 1rem;
-    border-right: solid 2px #333;
-  }
-  
-  .createRoomWrapper {
-    padding-bottom: 1rem;
-    border-bottom: solid 1px #ccc;
-  }
-  
-  .createRoomWrapper button,
-  .createRoomWrapper input {
-    width: 100%;
-  }
-  
-  .createRoomWrapper input {
-    margin-bottom: 0.5rem;
-  }
-  
-  .roomList {
-    list-style: none;
-    padding: 0;
-  }
-  
-  .roomList button {
-    width: 100%;
-    margin-bottom: 0.5rem;
-    background-color: #333;
-    display: flex;
-    cursor: pointer;
-  }
-  .roomList button:disabled {
-    background-color: #ccc;
-    cursor: default;
-  }
-  .roomList button span {
-    flex: 1;
-    text-align: left;
-  }
+  width: 280px;
+  background-color: #202225;
+  height: 100vh;
+  padding: 1.25rem 1rem;
+  border-right: 1px solid #18191c;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+/* User Section HUD */
+.userSection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2f3136;
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.userDot {
+  width: 8px;
+  height: 8px;
+  background-color: #43b581; /* green */
+  border-radius: 50%;
+}
+
+.usernameText {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 110px;
+}
+
+.logoutBtn {
+  background-color: transparent;
+  border: 1px solid #72767d;
+  color: #dcddde;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  border-color: #f04747;
+  color: #f04747;
+}
+
+/* Create and Join Wrappers */
+.joinByIdWrapper,
+.createRoomWrapper {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.joinByIdWrapper input,
+.createRoomWrapper input {
+  background-color: #2f3136;
+  border: 1px solid #18191c;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  color: #ffffff;
+  font-size: 0.85rem;
+}
+
+.joinByIdWrapper input:focus,
+.createRoomWrapper input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.joinByIdWrapper button,
+.createRoomWrapper button {
+  background-color: #6366f1;
+  color: white;
+  border: none;
+  padding: 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.joinByIdWrapper button:hover,
+.createRoomWrapper button:hover {
+  background-color: #4f46e5;
+}
+
+/* Active Room HUD */
+.currentRoomBox {
+  background-color: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.3);
+  padding: 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.currentRoomLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: #818cf8;
+  font-weight: 700;
+  margin: 0;
+}
+
+.currentRoomVal {
+  font-size: 1.1rem;
+  color: #fff;
+  font-weight: 700;
+  margin: 0.1rem 0;
+}
+
+.roomIdText {
+  font-size: 0.75rem;
+  color: #a0a0a0;
+  word-break: break-all;
+  margin: 0;
+}
+
+.copyBtn {
+  background-color: #6366f1;
+  color: #ffffff;
+  border: none;
+  padding: 0.4rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 0.4rem;
+  transition: background-color 0.2s;
+}
+
+.copyBtn:hover {
+  background-color: #4f46e5;
+}
+
+/* Room Lists */
+.listHeading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #72767d;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.roomList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+.roomList li {
+  margin-bottom: 0.25rem;
+}
+
+.roomList button {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #8e9297;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.15s;
+}
+
+.roomList button:hover {
+  background-color: #34373c;
+  color: #dcddde;
+}
+
+.roomList button.activeRoomBtn {
+  background-color: #393c43;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: default;
+}
+
+/* Footer info */
+.contactFooter {
+  border-top: 1px solid #2f3136;
+  padding-top: 0.75rem;
+  margin-top: auto;
+  text-align: center;
+}
+
+.contactLink {
+  color: #72767d;
+  font-size: 0.8rem;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contactLink:hover {
+  color: #ffffff;
+}
