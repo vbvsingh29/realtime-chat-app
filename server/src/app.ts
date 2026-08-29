@@ -34,8 +34,15 @@ const io = new Server(httpServer, {
 
 app.use("/api/auth", authRouter);
 
+import mongoose from "mongoose";
+
 app.get("/healthcheck", (_, res: Response) => {
-  res.send(`I am Up and running version ${version}`);
+  const dbConnected = mongoose.connection.readyState === 1;
+  if (dbConnected) {
+    res.json({ status: "healthy", database: "connected", version });
+  } else {
+    res.status(503).json({ status: "unhealthy", database: "disconnected", version });
+  }
 });
 
 httpServer.listen(port, async () => {
