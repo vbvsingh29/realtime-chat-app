@@ -3,8 +3,15 @@
   height: 100vh;
   width: calc(100% - 280px);
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   box-sizing: border-box;
+}
+
+.chatArea {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .chatHeader {
@@ -172,5 +179,127 @@
 }
 
 .messageBox button:hover {
+  background-color: #4f46e5;
+}
+
+.memberSidebar {
+  width: 240px;
+  background-color: #2f3136;
+  border-left: 1px solid #202225;
+  padding: 1.25rem 1rem;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  color: #fff;
+  height: 100%;
+}
+
+.sidebarSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.sectionHeading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #b9bbbe;
+  font-weight: 700;
+  margin: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding-bottom: 0.25rem;
+  letter-spacing: 0.05em;
+}
+
+.privacyText {
+  font-size: 0.95rem;
+  margin: 0.2rem 0 0 0;
+  color: #fff;
+}
+
+.ownerBadge {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffd700;
+  margin-top: 0.2rem;
+}
+
+.memberList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-y: auto;
+  max-height: 250px;
+}
+
+.memberItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+}
+
+.memberName {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 130px;
+  color: #dcddde;
+}
+
+.kickBtn {
+  background-color: transparent;
+  border: 1px solid #f04747;
+  color: #f04747;
+  padding: 0.1rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.kickBtn:hover {
+  background-color: #f04747;
+  color: #fff;
+}
+
+.addUserForm {
+  display: flex;
+  gap: 0.4rem;
+  margin-top: 0.2rem;
+}
+
+.addUserForm input {
+  flex: 1;
+  padding: 0.4rem;
+  border-radius: 4px;
+  border: 1px solid #202225;
+  background-color: #202225;
+  color: #dcddde;
+  font-size: 0.85rem;
+}
+
+.addUserForm input:focus {
+  outline: none;
+  border-color: #6366f1;
+}
+
+.addUserForm button {
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  border: none;
+  background-color: #6366f1;
+  color: #fff;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.addUserForm button:hover {
   background-color: #4f46e5;
 }

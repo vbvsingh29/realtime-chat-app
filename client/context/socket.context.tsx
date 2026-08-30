@@ -15,9 +15,10 @@ interface Context {
   setTypingUser: (val: string) => void;
   creatorId: string;
   setCreatorId: (val: string) => void;
+  roomDetails?: { roomId: string; name: string; creator: { _id: string; username: string }; members: { _id: string; username: string }[]; isPrivate: boolean } | null;
 }
 
-const socket = io(SOCKET_URL);
+const socket = io(SOCKET_URL, { autoConnect: false });
 const socketContext = createContext<Context>({
   socket,
   setUsername: () => false,
@@ -28,6 +29,7 @@ const socketContext = createContext<Context>({
   setTypingUser: () => {},
   creatorId: "",
   setCreatorId: () => {},
+  roomDetails: null,
 });
 
 function SocketProvider(props: any) {
@@ -37,6 +39,7 @@ function SocketProvider(props: any) {
   const [rooms, setRooms] = useState({});
   const [messages, setMessages] = useState([]);
   const [typingUser, setTypingUser] = useState("");
+  const [roomDetails, setRoomDetails] = useState<any>(null);
 
   const decodeJwt = (token: string) => {
     try {
@@ -74,6 +77,19 @@ function SocketProvider(props: any) {
     };
   }, []);
 
+  // Connect/disconnect socket based on authentication status
+  useEffect(() => {
+    const token = localStorage.getItem("chat_token");
+    if (creatorId && token) {
+      socket.auth = { token };
+      if (!socket.connected) {
+        socket.connect();
+      }
+    } else {
+      socket.disconnect();
+    }
+  }, [creatorId]);
+
   useEffect(() => {
     socket.on(EVENTS.SERVER.ROOMS, (value) => {
       setRooms(value);
@@ -88,6 +104,10 @@ function SocketProvider(props: any) {
       setMessages(history);
     });
 
+    socket.on("ROOM_DETAILS", (details) => {
+      setRoomDetails(details);
+    });
+
     socket.on("TYPING", ({ username: typingName, isTyping }) => {
       if (isTyping) {
         setTypingUser(typingName);
@@ -96,22 +116,36 @@ function SocketProvider(props: any) {
       }
     });
 
+    socket.on("KICKED", () => {
+      alert("You have been kicked from this room by the owner.");
+      setRoomId("");
+      setRoomDetails(null);
+      setMessages([]);
+    });
+
+    socket.on("ERROR", (errorMsg) => {
+      alert(errorMsg);
+    });
+
     return () => {
       socket.off(EVENTS.SERVER.ROOMS);
       socket.off(EVENTS.SERVER.JOINED_ROOM);
       socket.off("ROOM_HISTORY");
+      socket.off("ROOM_DETAILS");
       socket.off("TYPING");
+      socket.off("KICKED");
+      socket.off("ERROR");
     };
   }, []);
 
   useEffect(() => {
-    socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ message, username, time }) => {
+    socket.on(EVENTS.SERVER.ROOM_MESSAGE, ({ message, username: msgUser, time }) => {
       if (!document.hasFocus()) {
         document.title = "New Message...";
       }
       setMessages((prevMessages) => [
         ...prevMessages,
-        { message, username, time },
+        { message, username: msgUser, time },
       ]);
     });
 
@@ -134,6 +168,7 @@ function SocketProvider(props: any) {
         setTypingUser,
         creatorId,
         setCreatorId,
+        roomDetails,
       }}
       {...props}
     />

@@ -1,20 +1,22 @@
 import EVENTS from "../config/events";
 import { useSockets } from "../context/socket.context";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import styles from "../styles/Room.module.css";
 
 function Room() {
-  const { socket, roomId, rooms, username, creatorId } = useSockets();
+  const { socket, roomId, rooms, username } = useSockets();
   const newRoomRef = useRef<HTMLInputElement>(null);
   const joinByIdRef = useRef<HTMLInputElement>(null);
   const [copied, setCopied] = useState(false);
+  const [isPrivate, setIsPrivate] = useState(false);
 
   function handleCreateRoom() {
     const roomName = newRoomRef.current?.value;
     if (!roomName || !String(roomName).trim()) return;
 
-    socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, creatorId });
+    socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName, isPrivate });
     if (newRoomRef.current) newRoomRef.current.value = "";
+    setIsPrivate(false);
   }
 
   function handleJoinRoom(key: string) {
@@ -41,6 +43,15 @@ function Room() {
     window.location.reload();
   }
 
+  useEffect(() => {
+    socket.on("ADDED_TO_ROOM", ({ roomId: rId, roomName }) => {
+      alert(`You have been added to the private room "${roomName}"!`);
+    });
+    return () => {
+      socket.off("ADDED_TO_ROOM");
+    };
+  }, [socket]);
+
   return (
     <nav className={styles.wrapper}>
       {/* Current User Info */}
@@ -65,6 +76,14 @@ function Room() {
       {/* Create Room */}
       <div className={styles.createRoomWrapper}>
         <input placeholder="Create Room Name" ref={newRoomRef} />
+        <label className={styles.checkboxLabel}>
+          <input
+            type="checkbox"
+            checked={isPrivate}
+            onChange={(e) => setIsPrivate(e.target.checked)}
+          />
+          Make Private
+        </label>
         <button className="cta" onClick={handleCreateRoom}>
           Create
         </button>
@@ -88,15 +107,16 @@ function Room() {
       <h3 className={styles.listHeading}>Available Rooms</h3>
       <ul className={styles.roomList}>
         {Object.keys(rooms).map((key) => {
+          const room = rooms[key];
           return (
             <li key={key}>
               <button
                 className={key === roomId ? styles.activeRoomBtn : ""}
                 disabled={key === roomId}
-                title={`Join ${rooms[key].name}`}
+                title={`Join ${room.name}`}
                 onClick={() => handleJoinRoom(key)}
               >
-                # {rooms[key].name}
+                # {room.name} {room.isPrivate && <span className={styles.lockIcon}>🔒</span>}
               </button>
             </li>
           );

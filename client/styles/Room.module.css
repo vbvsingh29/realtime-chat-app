@@ -220,3 +220,22 @@
 .contactLink:hover {
   color: #ffffff;
 }
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #b9bbbe;
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin: 0.2rem 0;
+}
+
+.checkboxLabel input {
+  cursor: pointer;
+}
+
+.lockIcon {
+  font-size: 0.8rem;
+  margin-left: 0.4rem;
+}
