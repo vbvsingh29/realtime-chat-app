@@ -2,7 +2,7 @@ import express, { Response } from "express";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import cors from "cors";
-import config from "config";
+import config from "./config";
 import logger from "./utils/logger";
 import { version } from "../package.json";
 import socket from "./socket";
