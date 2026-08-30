@@ -2,7 +2,7 @@ import { Server, Socket } from "socket.io";
 import logger from "./utils/logger";
 import { nanoid } from "nanoid";
 import jwt from "jsonwebtoken";
-import config from "config";
+import config from "./config";
 import { RoomModel } from "./models/room.model";
 import { MessageModel } from "./models/message.model";
 import { UserModel } from "./models/user.model";
